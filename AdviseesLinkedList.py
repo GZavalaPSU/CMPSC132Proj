@@ -13,20 +13,22 @@ class AdviseeLinkedList:
         prev = None
         current = self.head
         while current:
-            if current.student.getID() == studentID:
+            # Convert current student ID object to string for comparison
+            if str(current.student.getID()) == str(studentID):
                 if prev:
                     prev.next = current.next
                 else:
                     self.head = current.next
-                return True  # removed
+                return True  # successfully removed
             prev = current
             current = current.next
-        return False  # not found
+        return False  # student not found
 
     def __str__(self):
         current = self.head
         result = ""
         while current:
-            result += str(current.student) + "\n\n"
+            # Call student.name's __str__ method to get the full name
+            result += f"Name: {current.student.getName()} | ID: {current.student.getID()}\n"
             current = current.next
         return result.strip()

@@ -18,6 +18,8 @@ from Date import Date
 from intendedMajor import intendedMajor
 from menu import menu
 from AdvisorMenu import AdvisorMenu
+from Course import Course
+from Advisor import Advisor
 
 listOfStudents = []
 
@@ -34,6 +36,9 @@ studentIntendedMajor = intendedMajor("Computer Science")
 
 # Appends student info
 student = Student(studentName, studentID, studentAddress, studentEmail, studentPhoneNumber, studentBirthDate, studentAcceptedDate, studentSemesterStart, studentIntendedMajor)
+student.addCourse(Course("CS101", "Fall 2024", "In-person", "Completed", "A"))
+student.addCourse(Course("CS201", "Spring 2025", "Online", "In Progress", "N/A"))
+student.addCourse(Course("CS310", "Fall 2025", "In-person", "Not Started", "N/A"))
 listOfStudents.append(student)
 
 studentName = nameOfStudent("John", "B", "Doe")
@@ -47,6 +52,9 @@ studentSemesterStart = Date("08", "30", "2024")
 studentIntendedMajor = intendedMajor("Computer Science")
 
 student = Student(studentName, studentID, studentAddress, studentEmail, studentPhoneNumber, studentBirthDate, studentAcceptedDate, studentSemesterStart, studentIntendedMajor)
+student.addCourse(Course("CS102", "Fall 2024", "In-person", "Completed", "B+"))
+student.addCourse(Course("CS250", "Spring 2025", "Hybrid", "In Progress", "N/A"))
+student.addCourse(Course("CS355", "Fall 2025", "Online", "Not Started", "N/A"))
 listOfStudents.append(student)
 
 studentName = nameOfStudent("Mac", "C", "Conor")
@@ -58,8 +66,13 @@ studentBirthDate = Date("01", "02", "2000")
 studentAcceptedDate = Date("06", "12", "2024")
 studentSemesterStart = Date("08", "30", "2024")
 studentIntendedMajor = intendedMajor("Biology")
-
+student.addCourse(Course("POL101", "Fall 2024", "Online", "Completed", "A"))
+student.addCourse(Course("POL210", "Spring 2025", "Hybrid", "In Progress", "N/A"))
+student.addCourse(Course("POL303", "Fall 2025", "In-person", "Not Started", "N/A"))
 student = Student(studentName, studentID, studentAddress, studentEmail, studentPhoneNumber, studentBirthDate, studentAcceptedDate, studentSemesterStart, studentIntendedMajor)
+student.addCourse(Course("BIO101", "Fall 2024", "In-person", "Completed", "A-"))
+student.addCourse(Course("BIO220", "Spring 2025", "Online", "In Progress", "N/A"))
+student.addCourse(Course("BIO330", "Fall 2025", "In-person", "Not Started", "N/A"))
 listOfStudents.append(student)
 
 studentName = nameOfStudent("Charles", "Q", "Pop")
@@ -73,6 +86,9 @@ studentSemesterStart = Date("08", "30", "2024")
 studentIntendedMajor = intendedMajor("Political Science")
 
 student = Student(studentName, studentID, studentAddress, studentEmail, studentPhoneNumber, studentBirthDate, studentAcceptedDate, studentSemesterStart, studentIntendedMajor)
+student.addCourse(Course("POL101", "Fall 2024", "Online", "Completed", "A"))
+student.addCourse(Course("POL210", "Spring 2025", "Hybrid", "In Progress", "N/A"))
+student.addCourse(Course("POL303", "Fall 2025", "In-person", "Not Started", "N/A"))
 listOfStudents.append(student)
 
 studentName = nameOfStudent("Dom", "B", "Sinclear")
@@ -86,8 +102,17 @@ studentSemesterStart = Date("08", "30", "2024")
 studentIntendedMajor = intendedMajor("Computer Science")
 
 student = Student(studentName, studentID, studentAddress, studentEmail, studentPhoneNumber, studentBirthDate, studentAcceptedDate, studentSemesterStart, studentIntendedMajor)
+student.addCourse(Course("CS102", "Fall 2024", "In-person", "Completed", "A"))
+student.addCourse(Course("CS103", "Spring 2025", "In-person", "In Progress", "N/A"))
+student.addCourse(Course("CS420", "Fall 2025", "In-person", "Not Started", "N/A"))
 listOfStudents.append(student)
 
+advisor = Advisor("Dr.", "Emily", "Clark", "Professor", "Computer Science")
+
+# Add advisees to the advisor (select 3 students from the list)
+for student in listOfStudents:
+    if student.ID.getStudentID() in ["1234567890", "7203650189", "2470836766"]:  # Matching Student IDs
+        advisor.addAdvisee(student)
 
 if __name__ == "__main__":
     while True:
