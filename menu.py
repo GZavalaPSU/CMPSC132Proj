@@ -11,6 +11,7 @@ from email import email
 from phoneNumber import phoneNumber
 from Date import Date
 from intendedMajor import intendedMajor
+from Course import Course
 
 def menu(listOfStudents):
     print("Welcome to our Academic Advisor Management program to be \nable to quickly edit students information!")
@@ -85,14 +86,37 @@ def menu(listOfStudents):
                 # Intended Major Picked
                 intendedMajorPicked = input("\nIntended Major: ")
                 StudentIntendedMajor = intendedMajor(intendedMajorPicked)
-    
-                # Combines all info
-                studentInfo = Student(studentName, studentIDNumber, studentAddress, studentEmails, studentPhoneNumber, birthday, acceptanceDate, semesterStart, StudentIntendedMajor)
-    
+
+                # Adding Courses
+                courses = []  # Temporary list to store courses
+                while True:
+                    addCourse = input("Would you like to add a course for this student? (Y/N): ")
+                    if addCourse.lower() == "y":
+                        courseNumber = input("Course Number: ")
+                        semesterTaken = input("Semester Taken: ")
+                        deliveryMethod = input("Delivery Method (Online/In-person): ")
+                        status = input("Status (Completed/In Progress): ")
+                        grade = input("Grade (if applicable): ")
+
+                        newCourse = Course(courseNumber, semesterTaken, deliveryMethod, status, grade)
+                        courses.append(newCourse)  # Add course to temporary list
+                        print("Course added successfully.")
+                    else:
+                        break
+
+                studentInfo = Student(
+                    studentName, studentIDNumber, studentAddress, studentEmails,
+                    studentPhoneNumber, birthday, acceptanceDate, semesterStart,
+                    StudentIntendedMajor
+                )
                 listOfStudents.append(studentInfo)
-    
-                print(f"You Finished Creating {studentName}, {studentIDNumber}!")
-                
+
+                # Add courses to student's course list
+                for course in courses:
+                    studentInfo.addCourse(course)
+
+                print(f"You finished creating {studentName}, {studentIDNumber}!")
+
                 continued = input("Would you like to make another student? (Y/N)\n")
                 if continued == "Y":
                     continue
@@ -126,7 +150,9 @@ def menu(listOfStudents):
                                                       "7. Acceptance Date\n"
                                                       "8. Semester Start\n"
                                                       "9. Intended Major\n"
-                                                      f"10. Quit Editing {edited.getID()}\n")
+                                                      "10. Add Courses\n"
+                                                      "11. Remove Courses\n"
+                                                      f"12. Quit Editing {edited.getID()}\n")
 
                             # Name
                             if userInputToChange == "1":
@@ -273,7 +299,43 @@ def menu(listOfStudents):
                                 intendedMajorPicked = input("Intended Major: ")
                                 edited.intendedMajor = intendedMajor(intendedMajorPicked)
 
-                            elif userInputToChange == "10":
+                            # Course Management
+                            elif userInputToChange == "10":  # Adding Courses
+                                while True:
+                                    courseNumber = input("Enter course number: ")
+                                    semesterTaken = input("Enter semester taken: ")
+                                    deliveryMethod = input("Enter delivery method (Online/In-person): ")
+                                    status = input("Enter status (Completed/In Progress): ")
+                                    grade = input("Enter grade (if applicable): ")
+
+                                    newCourse = Course(courseNumber, semesterTaken, deliveryMethod, status, grade)
+                                    edited.addCourse(newCourse)
+                                    print("Course added successfully.")
+
+                                    end = input("Would you like to add another course? (Y/N): ")
+                                    if end.lower() == "n":
+                                        break
+
+                            elif userInputToChange == "11":  # Removing Courses
+                                while True:
+                                    if not edited.getCourseList():  # Check if student has any courses
+                                        print("No courses to remove.")
+                                        break
+
+                                    print("\n--- Current Courses ---")
+                                    print(edited.getCourseList())  # Display courses
+                                    courseToRemove = input("Enter course number to remove: ")
+
+                                    if edited.removeCourse(courseToRemove):
+                                        print(f"Course {courseToRemove} removed successfully.")
+                                    else:
+                                        print("Course not found.")
+
+                                    end = input("Would you like to remove another course? (Y/N): ")
+                                    if end.lower() == "n":
+                                        break
+
+                            elif userInputToChange == "12":
                                 break
                         else:
                             print("Not a valid choice!")
@@ -316,6 +378,12 @@ def menu(listOfStudents):
                 for student in listOfStudents:
                     if student.ID.getStudentID() == studentToView:
                         print(student.studentInfo())
+                        # Display Student Courses
+                        if student.getCourseList():
+                            print("\n--- Courses ---")
+                            print(student.getCourseList())
+                        else:
+                            print("\nNo courses found for this student.")
                         break
                 else:
                     print("Student not found!")
